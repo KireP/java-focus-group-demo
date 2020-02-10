@@ -1,0 +1,34 @@
+version: "2"
+services:
+  eurekaserver:
+    image: polarcape/eurekaserver:1.0
+    ports:
+      - "8761:8761"
+  configurationserver:
+    image: polarcape/configurationserver:1.0
+    ports:
+      - "8888:8888"
+    environment:
+      EUREKASERVER_URI:  "http://eurekaserver:8761/eureka/"
+      EUREKASERVER_PORT: "8761"
+      ENCRYPT_KEY:       "IMSYMMETRIC"
+  zuulserver:
+    image: polarcape/zuulserver:1.0
+    ports:
+      - "5555:5555"
+    environment:
+      PROFILE: "default"
+      SERVER_PORT: "5555"
+      CONFIGSERVER_URI: "http://configurationserver:8888"
+      EUREKASERVER_URI: "http://eurekaserver:8761/eureka/"
+      CONFIGSERVER_PORT:        "8888"
+      EUREKASERVER_PORT:        "8761"
+      DATABASESERVER_PORT:      "5432"
+  database:
+    image: postgres:9.5
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=p0stgr@s
+      - POSTGRES_DB=java_focus_group_demo
