@@ -1,6 +1,6 @@
 spring:
   application:
-    name: zuulserver
+    name: organizationservice
   cloud:
     config:
       enabled: true

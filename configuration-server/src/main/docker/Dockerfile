@@ -1,5 +1,5 @@
 FROM openjdk:8-jdk-alpine
-RUN  apk update && apk upgrade && apk add netcat-openbsd && apk add curl
+RUN apk update && apk upgrade && apk add netcat-openbsd && apk add curl
 RUN mkdir -p /usr/local/configurationserver
 RUN cd /tmp/ && \
     wget "http://download.oracle.com/otn-pub/java/jce/8/jce_policy-8.zip" --header 'Cookie: oraclelicense=accept-securebackup-cookie' && \

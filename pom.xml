@@ -13,6 +13,7 @@
         <module>eureka-server</module>
         <module>configuration-server</module>
         <module>zuul-server</module>
+        <module>organization-service</module>
     </modules>
 
     <build>
