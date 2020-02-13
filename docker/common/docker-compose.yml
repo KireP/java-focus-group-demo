@@ -24,7 +24,7 @@ services:
       CONFIGSERVER_PORT: "8888"
       EUREKASERVER_PORT: "8761"
       DATABASESERVER_PORT: "5432"
-  organizationservice:
+  organizationservice1:
     image: polarcape/organizationservice:1.0
     ports:
       - "8085:8085"
@@ -37,13 +37,39 @@ services:
       EUREKASERVER_PORT: "8761"
       DATABASESERVER_PORT: "5432"
       ENCRYPT_KEY: "IMSYMMETRIC"
-  licensingservice:
+  organizationservice2:
+    image: polarcape/organizationservice:1.0
+    ports:
+      - "8086:8086"
+    environment:
+      PROFILE: "default"
+      SERVER_PORT: "8086"
+      CONFIGSERVER_URI: "http://configurationserver:8888"
+      EUREKASERVER_URI: "http://eurekaserver:8761/eureka/"
+      CONFIGSERVER_PORT: "8888"
+      EUREKASERVER_PORT: "8761"
+      DATABASESERVER_PORT: "5432"
+      ENCRYPT_KEY: "IMSYMMETRIC"
+  licensingservice1:
     image: polarcape/licensingservice:1.0
     ports:
       - "8080:8080"
     environment:
       PROFILE: "default"
       SERVER_PORT: "8080"
+      CONFIGSERVER_URI: "http://configurationserver:8888"
+      EUREKASERVER_URI: "http://eurekaserver:8761/eureka/"
+      CONFIGSERVER_PORT: "8888"
+      EUREKASERVER_PORT: "8761"
+      DATABASESERVER_PORT: "5432"
+      ENCRYPT_KEY: "IMSYMMETRIC"
+  licensingservice2:
+    image: polarcape/licensingservice:1.0
+    ports:
+      - "8081:8081"
+    environment:
+      PROFILE: "default"
+      SERVER_PORT: "8081"
       CONFIGSERVER_URI: "http://configurationserver:8888"
       EUREKASERVER_URI: "http://eurekaserver:8761/eureka/"
       CONFIGSERVER_PORT: "8888"
