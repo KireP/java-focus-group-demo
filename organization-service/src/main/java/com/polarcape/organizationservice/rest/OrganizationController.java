@@ -1,5 +1,6 @@
 package com.polarcape.organizationservice.rest;
 
+import com.polarcape.organizationservice.configuration.RequestHeadersContextHolder;
 import com.polarcape.organizationservice.model.Organization;
 import com.polarcape.organizationservice.service.OrganizationService;
 import org.slf4j.Logger;
@@ -28,18 +29,21 @@ public class OrganizationController {
 
     @GetMapping(value = "/{organizationId}")
     public Organization getOrganization(@PathVariable("organizationId") String organizationId) {
-        logger.debug(String.format("Looking up data for organization %s", organizationId));
+        logger.debug("In OrganizationController.getOrganization: {}. Thread ID: {}", RequestHeadersContextHolder.getContext().toString(), Thread.currentThread().getId());
+        logger.debug("Looking up data for organization {}", organizationId);
+        logger.debug("===============================================================================");
+
         return organizationService.getOrganization(organizationId);
     }
 
     @PostMapping
-    public void saveOrganization(@RequestBody Organization organization) {
-        organizationService.saveOrganization(organization);
+    public Organization saveOrganization(@RequestBody Organization organization) {
+        return organizationService.saveOrganization(organization);
     }
 
     @PutMapping
-    public void updateOrganization(@RequestBody Organization organization) {
-        organizationService.updateOrganization(organization);
+    public Organization updateOrganization(@RequestBody Organization organization) {
+        return organizationService.updateOrganization(organization);
     }
 
     @DeleteMapping(value = "/{organizationId}")

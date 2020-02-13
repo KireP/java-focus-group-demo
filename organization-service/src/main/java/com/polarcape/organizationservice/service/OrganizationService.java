@@ -24,13 +24,13 @@ public class OrganizationService {
         return organizationRepository.findById(organizationId).orElse(null);
     }
 
-    public void saveOrganization(Organization organization) {
+    public Organization saveOrganization(Organization organization) {
         organization.setId(UUID.randomUUID().toString());
-        organizationRepository.save(organization);
+        return organizationRepository.save(organization);
     }
 
-    public void updateOrganization(Organization organization) {
-        organizationRepository.save(organization);
+    public Organization updateOrganization(Organization organization) {
+        return organizationRepository.save(organization);
     }
 
     public void deleteOrganization(String organizationId) {

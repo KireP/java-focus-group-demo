@@ -1,4 +1,4 @@
-package com.polarcape.organizationservice.configuration;
+package com.polarcape.licensingservice.configuration;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
