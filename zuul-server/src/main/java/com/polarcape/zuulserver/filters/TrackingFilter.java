@@ -36,6 +36,7 @@ public class TrackingFilter extends ZuulFilter {
         logger.debug("Correlation ID: {}", RequestContext.getCurrentContext().getRequest().getHeader(FilterUtilConstants.CORRELATION_ID));
         logger.debug("Authentication token: {}", RequestContext.getCurrentContext().getRequest().getHeader(FilterUtilConstants.AUTHENTICATION_TOKEN));
         logger.debug("===============================================================================");
+
         return null;
     }
 }

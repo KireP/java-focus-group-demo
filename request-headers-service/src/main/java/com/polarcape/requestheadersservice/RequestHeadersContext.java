@@ -1,4 +1,4 @@
-package com.polarcape.licensingservice.configuration;
+package com.polarcape.requestheadersservice;
 
 import lombok.Getter;
 import lombok.Setter;

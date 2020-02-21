@@ -1,4 +1,4 @@
-package com.polarcape.organizationservice.configuration;
+package com.polarcape.requestheadersservice;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,11 +13,37 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.lang.NonNull;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 
 @Configuration
-public class RestTemplateConfiguration {
+public class RequestHeadersServiceConfiguration {
+
+    @Bean
+    public Filter getFilter() {
+        return new RequestHeadersContextFilter();
+    }
+
+    private static class RequestHeadersContextFilter implements Filter {
+
+        private static final Logger logger = LoggerFactory.getLogger(RequestHeadersContextFilter.class);
+
+        @Override
+        public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+            HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
+
+            RequestHeadersContext context = RequestHeadersContextHolder.getContext();
+            context.setCorrelationId(httpServletRequest.getHeader(RequestHeadersContext.CORRELATION_ID));
+            context.setAuthenticationToken(httpServletRequest.getHeader(RequestHeadersContext.AUTHENTICATION_TOKEN));
+
+            logger.debug("Incoming request headers context: {}", RequestHeadersContextHolder.getContext().toString());
+            logger.debug("===============================================================================");
+
+            filterChain.doFilter(servletRequest, servletResponse);
+        }
+    }
 
     @LoadBalanced
     @Bean
@@ -50,4 +76,5 @@ public class RestTemplateConfiguration {
             return clientHttpRequestExecution.execute(httpRequest, body);
         }
     }
+
 }

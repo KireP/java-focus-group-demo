@@ -1,7 +1,7 @@
 package com.polarcape.licensingservice.client;
 
-import com.polarcape.licensingservice.configuration.RequestHeadersContextHolder;
 import com.polarcape.licensingservice.model.Organization;
+import com.polarcape.requestheadersservice.RequestHeadersContextHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
@@ -27,6 +27,7 @@ public class OrganizationRestTemplateClient {
                 Thread.currentThread().getId()
         );
         logger.debug("===============================================================================");
+
         ResponseEntity<Organization> restExchange = restTemplate.exchange(
                 "http://organizationservice/v1/organizations/{organizationId}",
                 HttpMethod.GET,

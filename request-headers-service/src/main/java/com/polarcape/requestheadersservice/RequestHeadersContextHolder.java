@@ -1,4 +1,4 @@
-package com.polarcape.organizationservice.configuration;
+package com.polarcape.requestheadersservice;
 
 import org.springframework.util.Assert;
 

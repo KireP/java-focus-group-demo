@@ -1,8 +1,8 @@
 package com.polarcape.organizationservice.rest;
 
-import com.polarcape.organizationservice.configuration.RequestHeadersContextHolder;
 import com.polarcape.organizationservice.model.Organization;
 import com.polarcape.organizationservice.service.OrganizationService;
+import com.polarcape.requestheadersservice.RequestHeadersContextHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
