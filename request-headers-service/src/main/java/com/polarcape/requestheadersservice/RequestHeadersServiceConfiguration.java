@@ -92,7 +92,7 @@ public class RequestHeadersServiceConfiguration {
         public void apply(RequestTemplate requestTemplate) {
             RequestHeadersContext context = RequestHeadersContextHolder.getContext();
 
-            logger.debug("FEIGN CLIENT - Outgoing request headers context FEIGN CLIENT: {}", context.toString());
+            logger.debug("FEIGN CLIENT - Outgoing request headers context: {}", context.toString());
             logger.debug("===============================================================================");
 
             requestTemplate.header(RequestHeadersContext.CORRELATION_ID, context.getCorrelationId());
