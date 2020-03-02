@@ -1,5 +1,6 @@
 package com.polarcape.licensingservice.rest;
 
+import com.polarcape.licensingservice.client.Client;
 import com.polarcape.licensingservice.model.License;
 import com.polarcape.licensingservice.service.LicenseService;
 import org.springframework.http.HttpStatus;
@@ -28,8 +29,8 @@ public class LicenseController {
     }
 
     @GetMapping(value = "/{licenseId}")
-    public License getLicenses(@PathVariable("licenseId") String licenseId) {
-        return licenseService.getLicense(licenseId);
+    public License getLicenses(@PathVariable("licenseId") String licenseId, @RequestParam(value = "client", required = false) Client client) {
+        return licenseService.getLicense(licenseId, client);
     }
 
     @PostMapping

@@ -1,5 +1,7 @@
 package com.polarcape.licensingservice.service;
 
+import com.polarcape.licensingservice.client.Client;
+import com.polarcape.licensingservice.client.OrganizationFeignClient;
 import com.polarcape.licensingservice.client.OrganizationRestTemplateClient;
 import com.polarcape.licensingservice.model.License;
 import com.polarcape.licensingservice.model.Organization;
@@ -14,19 +16,28 @@ public class LicenseService {
 
     private final LicenseRepository licenseRepository;
     private final OrganizationRestTemplateClient organizationRestTemplateClient;
+    private final OrganizationFeignClient organizationFeignClient;
 
-    public LicenseService(LicenseRepository licenseRepository, OrganizationRestTemplateClient organizationRestTemplateClient) {
+    public LicenseService(LicenseRepository licenseRepository,
+                          OrganizationRestTemplateClient organizationRestTemplateClient,
+                          OrganizationFeignClient organizationFeignClient) {
         this.licenseRepository = licenseRepository;
         this.organizationRestTemplateClient = organizationRestTemplateClient;
+        this.organizationFeignClient = organizationFeignClient;
     }
 
     public List<License> getAllLicences() {
         return licenseRepository.findAll();
     }
 
-    public License getLicense(String licenceId) {
+    public License getLicense(String licenceId, Client client) {
         License license = licenseRepository.findByLicenseId(licenceId);
-        Organization organization = organizationRestTemplateClient.getOrganization(license.getOrganizationId());
+        Organization organization;
+        if (Client.FEIGN.equals(client)) {
+            organization = organizationFeignClient.getOrganization(license.getOrganizationId());
+        } else {
+            organization = organizationRestTemplateClient.getOrganization(license.getOrganizationId());
+        }
         return license
                 .withOrganizationName(organization.getName())
                 .withContactName(organization.getContactName())

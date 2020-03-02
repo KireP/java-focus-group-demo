@@ -1,5 +1,7 @@
 package com.polarcape.requestheadersservice;
 
+import feign.RequestInterceptor;
+import feign.RequestTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -33,10 +35,11 @@ public class RequestHeadersServiceConfiguration {
         @Override
         public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
             HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
-
-            RequestHeadersContext context = RequestHeadersContextHolder.getContext();
-            context.setCorrelationId(httpServletRequest.getHeader(RequestHeadersContext.CORRELATION_ID));
-            context.setAuthenticationToken(httpServletRequest.getHeader(RequestHeadersContext.AUTHENTICATION_TOKEN));
+            RequestHeadersContext context = new RequestHeadersContext(
+                    httpServletRequest.getHeader(RequestHeadersContext.CORRELATION_ID),
+                    httpServletRequest.getHeader(RequestHeadersContext.AUTHENTICATION_TOKEN)
+            );
+            RequestHeadersContextHolder.setContext(context);
 
             logger.debug("Incoming request headers context: {}", RequestHeadersContextHolder.getContext().toString());
             logger.debug("===============================================================================");
@@ -63,17 +66,37 @@ public class RequestHeadersServiceConfiguration {
         public ClientHttpResponse intercept(@NonNull HttpRequest httpRequest,
                                             @NonNull byte[] body,
                                             @NonNull ClientHttpRequestExecution clientHttpRequestExecution) throws IOException {
-            HttpHeaders headers = httpRequest.getHeaders();
-
             RequestHeadersContext context = RequestHeadersContextHolder.getContext();
 
-            logger.debug("Outgoing request headers context: {}", context.toString());
+            logger.debug("REST TEMPLATE CLIENT - Outgoing request headers context: {}", context.toString());
             logger.debug("===============================================================================");
 
+            HttpHeaders headers = httpRequest.getHeaders();
             headers.add(RequestHeadersContext.CORRELATION_ID, context.getCorrelationId());
             headers.add(RequestHeadersContext.AUTHENTICATION_TOKEN, context.getAuthenticationToken());
 
             return clientHttpRequestExecution.execute(httpRequest, body);
+        }
+    }
+
+    @Bean
+    public RequestInterceptor getFeignRequestInterceptor() {
+        return new RequestHeadersContextFeignInterceptor();
+    }
+
+    private static class RequestHeadersContextFeignInterceptor implements RequestInterceptor {
+
+        private static final Logger logger = LoggerFactory.getLogger(RequestHeadersContextFeignInterceptor.class);
+
+        @Override
+        public void apply(RequestTemplate requestTemplate) {
+            RequestHeadersContext context = RequestHeadersContextHolder.getContext();
+
+            logger.debug("FEIGN CLIENT - Outgoing request headers context FEIGN CLIENT: {}", context.toString());
+            logger.debug("===============================================================================");
+
+            requestTemplate.header(RequestHeadersContext.CORRELATION_ID, context.getCorrelationId());
+            requestTemplate.header(RequestHeadersContext.AUTHENTICATION_TOKEN, context.getAuthenticationToken());
         }
     }
 

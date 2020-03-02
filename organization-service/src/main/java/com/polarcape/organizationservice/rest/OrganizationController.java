@@ -29,7 +29,7 @@ public class OrganizationController {
 
     @GetMapping(value = "/{organizationId}")
     public Organization getOrganization(@PathVariable("organizationId") String organizationId) {
-        logger.debug("In OrganizationController.getOrganization: {}. Thread ID: {}", RequestHeadersContextHolder.getContext().toString(), Thread.currentThread().getId());
+        logger.debug("In OrganizationController.getOrganization: {}", RequestHeadersContextHolder.getContext().toString());
         logger.debug("Looking up data for organization {}", organizationId);
         logger.debug("===============================================================================");
 
