@@ -12,7 +12,7 @@ CREATE TABLE licenses
 );
 
 INSERT INTO licenses (license_id, organization_id, license_type, product_name, license_max, license_allocated)
-VALUES ('f3831f8c-c338-4ebe-a82a-e2fc1d1ff78a', 'e254f8c-c442-4ebe-a82a-e2fc1d1ff78a', 'user', 'CustomerPro', 100, 51);
+VALUES ('f3831f8c-c338-4ebe-a82a-e2fc1d1ff78a', 'e254f8c-c442-4ebe-a82a-e2fc1d1ff78a', 'user', 'Customer Pro', 100, 51);
 INSERT INTO licenses (license_id, organization_id, license_type, product_name, license_max, license_allocated)
 VALUES ('t9876f8c-c338-4abc-zf6a-ttt1', 'e254f8c-c442-4ebe-a82a-e2fc1d1ff78a', 'user', 'suitability-plus', 200, 189);
 INSERT INTO licenses (license_id, organization_id, license_type, product_name, license_max, license_allocated)
