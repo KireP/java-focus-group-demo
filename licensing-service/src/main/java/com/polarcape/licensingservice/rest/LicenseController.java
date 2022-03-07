@@ -29,7 +29,7 @@ public class LicenseController {
     }
 
     @GetMapping(value = "/{licenseId}")
-    public License getLicenses(@PathVariable("licenseId") String licenseId, @RequestParam(value = "client", required = false) Client client) {
+    public License getLicense(@PathVariable("licenseId") String licenseId, @RequestParam(value = "client", required = false) Client client) {
         return licenseService.getLicense(licenseId, client);
     }
 
